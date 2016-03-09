@@ -36,6 +36,7 @@ Functions
 
 from datetime import datetime, date
 
+import six
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
@@ -45,7 +46,7 @@ def validate_text(value):
     '''
     Raises ``ValidationError`` unless *value* type is ``str`` or ``unicode``
     '''
-    if not (type(value) == unicode or type(value) == str):
+    if not isinstance(value, six.string_types):
         raise ValidationError(_(u"Must be str or unicode"))
 
 

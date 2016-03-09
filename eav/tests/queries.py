@@ -46,7 +46,7 @@ class Queries(TestCase):
         self.assertEqual(Value.objects.count(), 2)
 
     def test_get_with_eav(self):
-        p1 = Patient.objects.get_or_create(name='Bob', eav__age=6)
+        p1, _ = Patient.objects.get_or_create(name='Bob', eav__age=6)
         self.assertEqual(Patient.objects.get(eav__age=6), p1)
         p2 = Patient.objects.get_or_create(name='Fred', eav__age=6)
         self.assertRaises(Patient.MultipleObjectsReturned,

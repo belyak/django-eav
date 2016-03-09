@@ -35,6 +35,7 @@ Classes
 
 from datetime import datetime
 
+import sys
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -84,6 +85,7 @@ class EnumValue(models.Model):
         return self.value
 
 
+@six.python_2_unicode_compatible
 class EnumGroup(models.Model):
     '''
     *EnumGroup* objects have two fields- a *name* ``CharField`` and *enums*,
@@ -97,7 +99,7 @@ class EnumGroup(models.Model):
 
     enums = models.ManyToManyField(EnumValue, verbose_name=_(u"enum group"))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -559,7 +561,7 @@ class Entity(object):
         entity = getattr(kwargs['instance'], instance._eav_config_cls.eav_attr)
         entity.validate_attributes()
 
-if 'django_nose' in settings.INSTALLED_APPS:
+if 'django_nose' in settings.INSTALLED_APPS or 'test' in sys.argv:
     '''
     The django_nose test runner won't automatically create our Patient model
     database table which is required for tests, unless we import it here.
